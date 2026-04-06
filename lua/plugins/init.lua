@@ -50,40 +50,44 @@ local default_plugins = {
       return { override = require "nvchad.icons.devicons" }
     end,
     config = function(_, opts)
-      dofile(vim.g.base46_cache .. "devicons")
+      pcall(dofile, vim.g.base46_cache .. "devicons")
       require("nvim-web-devicons").setup(opts)
     end,
   },
 
   {
     "lukas-reineke/indent-blankline.nvim",
-    version = "2.20.7",
-    init = function()
-      require("core.utils").lazy_load "indent-blankline.nvim"
-    end,
-    opts = function()
-      return require("plugins.configs.others").blankline
-    end,
-    config = function(_, opts)
-      require("core.utils").load_mappings "blankline"
-      dofile(vim.g.base46_cache .. "blankline")
-      require("indent_blankline").setup(opts)
+    event = { "BufReadPost", "BufNewFile" },
+    config = function()
+      require("ibl").setup({
+        indent = { char = "│" },
+        scope = { enabled = false },
+      })
     end,
   },
 
   {
-    "nvim-treesitter/nvim-treesitter",
-    init = function()
-      require("core.utils").lazy_load "nvim-treesitter"
-    end,
-    cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
-    build = ":TSUpdate",
-    opts = function()
-      return require "plugins.configs.treesitter"
-    end,
-    config = function(_, opts)
-      dofile(vim.g.base46_cache .. "syntax")
-      require("nvim-treesitter.configs").setup(opts)
+  "nvim-treesitter/nvim-treesitter",
+  build = ":TSUpdate",
+  event = { "BufReadPost", "BufNewFile" },
+  config = function()
+    pcall(dofile, vim.g.base46_cache .. "syntax")
+    pcall(dofile, vim.g.base46_cache .. "treesitter")
+    vim.api.nvim_create_autocmd("FileType", {
+      callback = function()
+        pcall(vim.treesitter.start)
+      end,
+    })
+  end,
+},
+
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    event = { "BufReadPost", "BufNewFile" },
+    config = function()
+      require("treesitter-context").setup({
+        enable = true,
+      })
     end,
   },
 
@@ -110,7 +114,7 @@ local default_plugins = {
       return require("plugins.configs.others").gitsigns
     end,
     config = function(_, opts)
-      dofile(vim.g.base46_cache .. "git")
+      pcall(dofile, vim.g.base46_cache .. "git")
       require("gitsigns").setup(opts)
     end,
   },
@@ -123,7 +127,7 @@ local default_plugins = {
       return require "plugins.configs.mason"
     end,
     config = function(_, opts)
-      dofile(vim.g.base46_cache .. "mason")
+      pcall(dofile, vim.g.base46_cache .. "mason")
       require("mason").setup(opts)
 
       -- custom nvchad cmd to install all mason binaries listed
@@ -222,7 +226,7 @@ local default_plugins = {
       return require "plugins.configs.nvimtree"
     end,
     config = function(_, opts)
-      dofile(vim.g.base46_cache .. "nvimtree")
+      pcall(dofile, vim.g.base46_cache .. "nvimtree")
       require("nvim-tree").setup(opts)
     end,
   },
@@ -238,7 +242,7 @@ local default_plugins = {
       return require "plugins.configs.telescope"
     end,
     config = function(_, opts)
-      dofile(vim.g.base46_cache .. "telescope")
+      pcall(dofile, vim.g.base46_cache .. "telescope")
       local telescope = require "telescope"
       telescope.setup(opts)
 
@@ -258,7 +262,7 @@ local default_plugins = {
     end,
     cmd = "WhichKey",
     config = function(_, opts)
-      dofile(vim.g.base46_cache .. "whichkey")
+      pcall(dofile, vim.g.base46_cache .. "whichkey")
       require("which-key").setup(opts)
     end,
   },

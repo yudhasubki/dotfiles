@@ -1,6 +1,6 @@
 local cmp = require "cmp"
 
-dofile(vim.g.base46_cache .. "cmp")
+pcall(dofile, vim.g.base46_cache .. "cmp")
 
 local cmp_ui = require("core.utils").load_config().ui.cmp
 local cmp_style = cmp_ui.style
@@ -73,6 +73,8 @@ local options = {
     ["<C-n>"] = cmp.mapping.select_next_item(),
     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
+    ["<Down>"] = cmp.mapping.select_next_item(),
+    ["<Up>"] = cmp.mapping.select_prev_item(),
     ["<C-Space>"] = cmp.mapping.complete(),
     ["<C-e>"] = cmp.mapping.close(),
     ["<CR>"] = cmp.mapping.confirm {
