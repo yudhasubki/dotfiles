@@ -66,28 +66,3 @@ vim.diagnostic.config({
     prefix = "",
   },
 })
-
--- ── Avante Model Picker ─────────────────────────────────────────
-vim.keymap.set("n", "<leader>am", function()
-  vim.ui.select(
-    {
-      "gpt-4o",
-      "gpt-4.1",
-      "claude-sonnet-4-20250514",
-      "claude-3.5-sonnet",
-      "gemini-2.5-pro",
-      "o3-mini",
-    },
-    { prompt = "Select Model:" },
-    function(choice)
-      if choice then
-        require("avante.config").override({
-          providers = {
-            copilot = { model = choice },
-          },
-        })
-        vim.notify("Model: " .. choice)
-      end
-    end
-  )
-end, { silent = true })

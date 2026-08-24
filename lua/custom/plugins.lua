@@ -29,11 +29,6 @@ local plugins = {
   },
 
   {
-  "nvim-treesitter/nvim-treesitter",
-  build = ":TSUpdate",
-},
-
-  {
     "nvim-tree/nvim-tree.lua",
     opts = overrides.nvimtree,
   },
@@ -71,48 +66,6 @@ local plugins = {
     opts = {},
   },
 
-  -- Avante (AI panel)
-  {
-    "yetone/avante.nvim",
-    event = "VeryLazy",
-    build = "make",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      "nvim-tree/nvim-web-devicons",
-      "zbirenbaum/copilot.lua",
-    },
-    opts = {
-      -- Default provider
-      provider = "copilot",
-
-      -- Provider configs
-      providers = {
-        copilot = {
-          model = "gpt-4o",
-          timeout = 30000,
-          extra_request_body = {
-            temperature = 0,
-            max_completion_tokens = 8192,
-          },
-        },
-        claude = {
-          api_key_name = "ANTHROPIC_API_KEY",
-          model = "claude-sonnet-4-20250514",
-          timeout = 30000,
-          extra_request_body = {
-            temperature = 0,
-            max_tokens = 8192,
-          },
-        },
-      },
-
-      windows = {
-        position = "right",
-        width = 40,
-      },
-    },
-  },
 }
 
 return plugins

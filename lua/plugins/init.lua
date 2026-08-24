@@ -57,6 +57,7 @@ local default_plugins = {
 
   {
     "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
     event = { "BufReadPost", "BufNewFile" },
     config = function()
       require("ibl").setup({
@@ -67,19 +68,20 @@ local default_plugins = {
   },
 
   {
-  "nvim-treesitter/nvim-treesitter",
-  build = ":TSUpdate",
-  event = { "BufReadPost", "BufNewFile" },
-  config = function()
-    pcall(dofile, vim.g.base46_cache .. "syntax")
-    pcall(dofile, vim.g.base46_cache .. "treesitter")
-    vim.api.nvim_create_autocmd("FileType", {
-      callback = function()
-        pcall(vim.treesitter.start)
-      end,
-    })
-  end,
-},
+    "nvim-treesitter/nvim-treesitter",
+    branch = "main",
+    lazy = false,
+    build = ":TSUpdate",
+    config = function()
+      pcall(dofile, vim.g.base46_cache .. "syntax")
+      pcall(dofile, vim.g.base46_cache .. "treesitter")
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function()
+          pcall(vim.treesitter.start)
+        end,
+      })
+    end,
+  },
 
   {
     "nvim-treesitter/nvim-treesitter-context",
